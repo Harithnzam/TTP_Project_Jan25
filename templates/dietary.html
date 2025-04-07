@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dietary & Tracking Updates - Luviel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #C5B8A8;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .header {
+      background-color: #E4E0DD;
+      padding: 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .home-btn {
+      background-color: #9A5E1F;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 20px auto;
+      display: block;
+    }
+    .container {
+      background-color: #E4D1B6;
+      border-radius: 10px;
+      padding: 20px;
+      width: 80%;
+      max-width: 900px;
+      margin: 30px auto;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    h2 {
+      margin-top: 20px;
+    }
+    .dietary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    .dietary-table th, .dietary-table td {
+      border: 1px solid #9A5E1F;
+      padding: 10px;
+    }
+    .dietary-table th {
+      background-color: #E4E0DD;
+    }
+    .tracking-section {
+      margin: 30px 0;
+    }
+    .update-form {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 20px;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+    .update-form label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    .update-form input[type="date"],
+    .update-form input[type="text"],
+    .update-form textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .update-form textarea {
+      resize: vertical;
+      height: 80px;
+    }
+    .update-form button {
+      background-color: #9A5E1F;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    .update-form button:hover {
+      background-color: #814A18;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">Luviel Dietary & Tracking Updates</div>
+  <div class="container">
+    <h2>Your Dietary Log</h2>
+    <table class="dietary-table" id="dietary-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Meal</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025-03-15</td>
+          <td>Breakfast</td>
+          <td>Oatmeal with fresh berries</td>
+        </tr>
+        <tr>
+          <td>2025-03-15</td>
+          <td>Lunch</td>
+          <td>Grilled chicken salad</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Tracking Your Improvements</h2>
+    <div class="tracking-section">
+      <p>Monitor your progress with our visual tracking tools. You can track your dietary and skincare improvements over time.</p>
+    </div>
+
+    <div class="update-form">
+      <h3>Update Your Daily Progress</h3>
+      <form id="dietary-form">
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="meal">Meal Details:</label>
+        <input type="text" id="meal" name="meal" placeholder="E.g., Breakfast - Green Smoothie" required>
+
+        <label for="notes">Additional Notes:</label>
+        <textarea id="notes" name="notes" placeholder="Share any observations or improvements..." required></textarea>
+
+        <button type="submit">Submit Update</button>
+      </form>
+    </div>
+      <!-- Home Button -->
+  <button class="home-btn" onclick="window.location.href='{{ url_for('premium') }}'">Home</button>
+
+  </div>
+
+  <!-- Place your script here -->
+  <script>
+    document.getElementById('dietary-form').addEventListener('submit', function(e) {
+      e.preventDefault();  // Prevent form submission
+
+      // Get the values from the form
+      const date = document.getElementById('date').value;
+      const meal = document.getElementById('meal').value;
+      const notes = document.getElementById('notes').value;
+
+      // Create a new row for the table
+      const newRow = document.createElement('tr');
+
+      // Create table cells for the new row
+      const dateCell = document.createElement('td');
+      dateCell.textContent = date;
+
+      const mealCell = document.createElement('td');
+      mealCell.textContent = meal;
+
+      const notesCell = document.createElement('td');
+      notesCell.textContent = notes;
+
+      // Append cells to the row
+      newRow.appendChild(dateCell);
+      newRow.appendChild(mealCell);
+      newRow.appendChild(notesCell);
+
+      // Append the new row to the table
+      document.getElementById('dietary-table').querySelector('tbody').appendChild(newRow);
+
+      // Reset the form fields
+      document.getElementById('dietary-form').reset();
+    });
+  </script>
+</body>
+</html>

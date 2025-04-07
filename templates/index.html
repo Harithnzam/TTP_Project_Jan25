@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <title>Skin Analysis AI</title>
+  <style>
+    body {
+      background-color: #C5B8A8;
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    /* Top Navigation Bar */
+    .header {
+      background-color: #E4E0DD;
+      padding: 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .container {
+      background-color: #E4D1B6;
+      border-radius: 10px;
+      padding: 20px;
+      width: 50%;
+      margin: 50px auto;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .form-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      margin: 10px 0;
+    }
+    .form-group label {
+      width: 150px;
+      text-align: right;
+    }
+    .form-group select {
+      padding: 5px;
+      width: 200px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    select, input[type="checkbox"] {
+      margin: 5px;
+    }
+    /* Button Styling */
+    button {
+      background-color: #9A5E1F;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #814A18;
+    }
+    /* Subscribe Button Styling */
+    .subscribe-btn {
+      background-color: #007BFF;
+      margin-top: 10px;
+    }
+    .subscribe-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">Luviel</div>
+  <h1>Skin Analysis AI</h1>
+  <p>These questions help us find the best personalized skincare for you while ensuring we avoid any potential allergens.</p>
+
+  <div class="container">
+    <div class="form-group">
+      <label for="gender">Your Gender:</label>
+      <select id="gender">
+        <option value="Female">Female</option>
+        <option value="Male">Male</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="age">Your Age Range:</label>
+      <select id="age">
+        <option value="15-19">15-19</option>
+        <option value="20-25">20-25</option>
+        <option value="26-30">26-30</option>
+        <option value="31-40">31-40</option>
+        <option value="41-50">41-50</option>
+        <option value="51-60">51-60</option>
+        <option value="61+">61+</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Any Known Allergies?</label>
+      <input type="checkbox" id="fragrance" value="Fragrance"> Fragrance
+      <input type="checkbox" id="parabens" value="Parabens"> Parabens
+      <input type="checkbox" id="alcohol" value="Alcohol"> Alcohol
+      <input type="checkbox" id="sulphate" value="Sulphate"> Sulphate
+    </div>
+
+    <div class="form-group">
+      <label>If you are female and pregnant, please tick the box:</label>
+      <input type="checkbox" id="pregnant">
+    </div>
+    
+    <!-- Disclaimer -->
+    <p><strong>Disclaimer:</strong> We do not collect or store personal information. These questions are only used to provide better skincare recommendations and avoid unsuitable products.</p>
+
+    <!-- Primary Action Button -->
+    <button type="button" onclick="window.location.href='{{ url_for('camera') }}'">Next, Let's Take a Photo →</button>
+    
+    <!-- Subscribe Button for Premium Users -->
+    <button type="button" class="subscribe-btn" onclick="window.location.href='{{ url_for('subscribe') }}'">Subscribe for Premium</button>
+  </div>
+
+  <script>
+    function saveData() {
+      let userData = {
+        gender: document.getElementById("gender").value,
+        age_range: document.getElementById("age").value,
+        allergies: [],
+        pregnant: document.getElementById("pregnant").checked ? "Yes" : "No"
+      };
+
+      // Get selected allergies
+      let allergyCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      allergyCheckboxes.forEach((checkbox) => {
+        if (checkbox.id !== "pregnant") {
+          userData.allergies.push(checkbox.value);
+        }
+      });
+
+      // Save to JSON file (simulated)
+      fetch('/save-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      }).then(response => {
+        if (response.ok) {
+          window.location.href = "photo.html";
+        }
+      }).catch(error => console.error("Error:", error));
+    }
+  </script>
+</body>
+</html>

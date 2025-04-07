@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luviel Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #C5B8A8;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .header {
+      background-color: #E4E0DD;
+      padding: 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .container {
+      background-color: #E4D1B6;
+      border-radius: 10px;
+      padding: 20px;
+      width: 80%;
+      max-width: 900px;
+      margin: 30px auto;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    .home-section {
+      margin: 30px 0;
+    }
+    .home-section button {
+      background-color: #9A5E1F;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    .home-section button:hover {
+      background-color: #814A18;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">Welcome to Luviel</div>
+  
+  <!-- Start of Container -->
+  <div class="container">
+    <div class="home-section">
+      <h2>Your Dashboard</h2>
+      <p>Choose an option below to access the relevant section:</p>
+      <button onclick="window.location.href='{{ url_for('profile') }}'">View Profile</button>
+      <button onclick="window.location.href='{{ url_for('dietary') }}'">Dietary Tracking</button>
+      <button onclick="window.location.href='{{ url_for('progress') }}'">Update Your Face</button>
+    
+    </div>
+    <button onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+  </div>
+  <!-- End of Container -->
+  
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera - Luviel</title>
+    <style>
+        body { background-color: #E4D1B6; text-align: center; font-family: 'Roboto', sans-serif; margin: 0; padding: 0; }
+        .header { width: 100%; background-color: #E4E0DD; text-align: center; padding: 15px; font-size: 24px; font-weight: bold; }
+        .container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: calc(100vh - 60px); }
+        video { border: 2px solid black; border-radius: 10px; width: 360px; height: 500px; object-fit: cover; }
+        button { margin-top: 20px; padding: 10px 20px; font-size: 18px; background-color: #C19A6B; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .loading { display: none; margin-top: 20px; font-size: 20px; color: #333; }
+    </style>
+</head>
+<body>
+    <div class="header">Luviel</div>
+    <div class="container">
+        <video id="video" autoplay></video>
+        <br>
+        <button onclick="snapPhoto()">Snap Photo (Live Capture)</button>
+        <br>
+        <input type="file" id="uploadInput" accept="image/*">
+        <button onclick="uploadPhoto()">Upload Photo</button>
+        <p class="loading" id="loading">Processing...</p>
+    </div>
+
+    <script>
+        const video = document.getElementById("video");
+
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (error) {
+                alert("Camera access denied or unavailable: " + error.message);
+            }
+        }
+        startCamera();
+
+        function processImage(blob) {
+            document.getElementById("loading").style.display = 'block';
+            const formData = new FormData();
+            formData.append('image', blob, 'snapshot.jpg');
+            fetch('/scan', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("loading").style.display = 'none';
+                if (data.condition && data.img_file) {
+                    window.location.href = `/results?condition=${encodeURIComponent(data.condition)}&img_file=${encodeURIComponent(data.img_file)}`;
+                } else {
+                    alert('Face scan failed: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                document.getElementById("loading").style.display = 'none';
+                console.error('Error:', error);
+            });
+        }
+
+        function snapPhoto() {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            canvas.toBlob(function(blob) {
+                processImage(blob);
+            }, 'image/jpeg');
+        }
+
+        function uploadPhoto() {
+            const fileInput = document.getElementById("uploadInput");
+            if (fileInput.files.length === 0) {
+                alert("Please select an image to upload.");
+                return;
+            }
+            const file = fileInput.files[0];
+            processImage(file);
+        }
+    </script>
+</body>
+</html>

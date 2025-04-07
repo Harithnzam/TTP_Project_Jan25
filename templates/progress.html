@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera - Luviel</title>
+    <style>
+        body { background-color: #E4D1B6; text-align: center; font-family: 'Roboto', sans-serif; margin: 0; padding: 0; }
+        .header { width: 100%; background-color: #E4E0DD; text-align: center; padding: 15px; font-size: 24px; font-weight: bold; }
+        .container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: calc(100vh - 60px); }
+        table { width: 80%; margin-top: 30px; border-collapse: collapse; }
+        table, th, td { border: 1px solid black; }
+        th, td { padding: 10px; text-align: center; }
+        th { background-color: #C19A6B; color: white; }
+        button { margin-top: 20px; padding: 10px 20px; font-size: 18px; background-color: #C19A6B; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .loading { display: none; margin-top: 20px; font-size: 20px; color: #333; }
+        .history-section { margin-top: 40px; text-align: left; width: 80%; margin-left: 10%; }
+        .history-section h3 { font-size: 22px; font-weight: bold; }
+        .history-item { margin-bottom: 15px; padding: 5px; border: 1px solid #ddd; }
+        .history-item p { margin: 5px 0; }
+        .home-btn {
+      background-color: #9A5E1F;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 20px auto;
+      display: block;
+    }
+    </style>
+</head>
+<body>
+    <div class="header">Luviel</div>
+    <div class="container">
+        <p class="loading" id="loading">Processing...</p>
+        <!-- Detected Conditions Table -->
+        {% if skin_condition %}
+        <h3>Detected Skin Conditions:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Condition</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Papules & Pustules</td>
+                    <td>{{ skin_condition['Papules & Pustules']*100 }}%</td>
+                </tr>
+                <tr>
+                    <td>Black & Whitehead</td>
+                    <td>{{ skin_condition['Black & Whitehead']*100 }}%</td>
+                </tr>
+                <tr>
+                    <td>Cyst</td>
+                    <td>{{ skin_condition['Cyst']*100 }}%</td>
+                </tr>
+                <tr>
+                    <td>Acne</td>
+                    <td>{{ skin_condition['Acne']*100 }}%</td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+        
+        <!-- Dummy History Section -->
+        <div class="history-section">
+            <h3>History:</h3>
+            <div class="history-item">
+                <p><strong>Date:</strong> 2025-03-10</p>
+                <p><strong>Condition:</strong> Papules & Pustules</p>
+                <p><strong>Percentage:</strong> 85.50%</p>
+            </div>
+            <div class="history-item">
+                <p><strong>Date:</strong> 2025-03-12</p>
+                <p><strong>Condition:</strong> Acne</p>
+                <p><strong>Percentage:</strong> 67.30%</p>
+            </div>
+            <div class="history-item">
+                <p><strong>Date:</strong> 2025-03-14</p>
+                <p><strong>Condition:</strong> Black & Whitehead</p>
+                <p><strong>Percentage:</strong> 45.90%</p>
+            </div>
+
+                  <!-- Home Button -->
+  <button class="home-btn" onclick="window.location.href='{{ url_for('premium') }}'">Home</button>
+
+        </div>
+
+</body>
+</html>
